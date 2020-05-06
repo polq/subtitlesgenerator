@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  my-sql:
+    image: mysql:latest
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_DATABASE=sub_generator
+
+  java-image:
+    build:
+      context: ./
+      dockerfile: ./src/main/docker/Dockerfile
+    image: openjdk:9
+    restart: always
+    ports:
+      - 8080:8080
+      - 8000:8000
+    depends_on:
+      - my-sql
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/speech.json
+    command: ["/wait-for-it.sh", "my-sql:3306", "--", "java", "-jar", "/app/app.jar"]

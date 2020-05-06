@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -34,13 +34,13 @@ public class VoiceRecognizer {
    * @return {@link List} of recognised {@link MyWordInfo}
    * @throws IOException
    */
-  List<MyWordInfo> recognizeFromLocalFile(Resource resourceFile, String language)
+  public List<MyWordInfo> recognizeFromLocalFile(File resourceFile, String language)
       throws IOException {
-    String fileName = resourceFile.getFilename();
+    String fileName = resourceFile.getName();
     List<WordInfo> recognizedWords = new ArrayList<>();
     try (SpeechClient speechClient = SpeechClient.create()) {
 
-      Path path = Paths.get(fileName);
+      Path path = resourceFile.toPath();
       byte[] data = Files.readAllBytes(path);
       ByteString audioBytes = ByteString.copyFrom(data);
 
@@ -85,7 +85,7 @@ public class VoiceRecognizer {
    * @throws InterruptedException
    * @throws ExecutionException
    */
-  List<MyWordInfo> recognizeFromGS(String gcsUri, String language)
+  public List<MyWordInfo> recognizeFromGS(String gcsUri, String language)
       throws IOException, InterruptedException, ExecutionException {
     List<WordInfo> recognizedWords = new ArrayList<>();
     try (SpeechClient speech = SpeechClient.create()) {

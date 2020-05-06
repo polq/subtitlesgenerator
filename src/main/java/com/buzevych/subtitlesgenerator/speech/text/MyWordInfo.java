@@ -1,11 +1,13 @@
 package com.buzevych.subtitlesgenerator.speech.text;
 
 import com.google.cloud.speech.v1.WordInfo;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.Duration;
 
 @Data
+@AllArgsConstructor
 public class MyWordInfo {
 
   private StringBuilder word;
@@ -19,12 +21,6 @@ public class MyWordInfo {
             wordInfo.getStartTime().getSeconds(), wordInfo.getStartTime().getNanos());
     this.endTime =
         Duration.ofSeconds(wordInfo.getEndTime().getSeconds(), wordInfo.getEndTime().getNanos());
-  }
-
-  MyWordInfo() {
-    this.word = new StringBuilder();
-    this.startTime = Duration.ofSeconds(0);
-    this.endTime = Duration.ofSeconds(0);
   }
 
   void appendNewWordInfo(MyWordInfo myWordInfo) {

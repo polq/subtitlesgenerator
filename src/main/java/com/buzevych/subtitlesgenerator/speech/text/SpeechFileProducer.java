@@ -1,16 +1,15 @@
 package com.buzevych.subtitlesgenerator.speech.text;
 
-import org.springframework.core.io.Resource;
-
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 public interface SpeechFileProducer {
     /**
-     *  Generates
-     * @param words
-     * @return
+     *  Generates sub file from a list of words
+     * @param words represents list of recognised words
+     * @return subtitles file
      * @throws IOException
      */
-    Resource produce(List<MyWordInfo> words) throws IOException;
+    File produce(List<MyWordInfo> words) throws IOException;
 }
