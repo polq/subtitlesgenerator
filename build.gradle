@@ -1,0 +1,52 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+}
+
+
+group = 'com.buzevych'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '8'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.3.1.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-config', version: '5.3.1.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-web', version: '5.3.1.RELEASE'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    compile 'com.google.cloud:google-cloud-speech:1.22.6'
+    compile group: 'com.google.cloud', name: 'google-cloud-storage', version: '1.107.0'
+    compile group: 'net.bramp.ffmpeg', name: 'ffmpeg', version: '0.6.2'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.19'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.3.3'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootRun {
+    environment = ["GOOGLE_APPLICATION_CREDENTIALS": "speech.json"]
+}
+
